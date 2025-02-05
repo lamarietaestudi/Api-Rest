@@ -9,6 +9,16 @@ const getGame = async (req, res, next) => {
   }
 };
 
+const getGameByCategory = async (req, res, next) => {
+  try {
+    const { category } = req.params;
+    const games = await Game.find({ category });
+    return res.status(200).json(games);
+  } catch (error) {
+    return res.status(400).json('Error in Get Game by Category controller');
+  }
+};
+
 const postGame = async (req, res, next) => {
   try {
     const newGame = new Game(req.body);
@@ -22,8 +32,6 @@ const postGame = async (req, res, next) => {
 const updateGame = async (req, res, next) => {
   try {
     const { id_game } = req.params;
-    console.log('Received ID:', id_game);
-    console.log('Received Body:');
     const gameUpdated = await Game.findByIdAndUpdate(id_game, req.body, {
       new: true
     });
@@ -45,4 +53,10 @@ const deleteGame = async (req, res, next) => {
   }
 };
 
-module.exports = { getGame, postGame, updateGame, deleteGame };
+module.exports = {
+  getGame,
+  getGameByCategory,
+  postGame,
+  updateGame,
+  deleteGame
+};

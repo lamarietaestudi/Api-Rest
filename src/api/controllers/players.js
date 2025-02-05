@@ -19,6 +19,16 @@ const getSinglePlayer = async (req, res, next) => {
   }
 };
 
+const getUnderAgePlayer = async (req, res, next) => {
+  try {
+    const { age_limit } = req.params;
+    const underAgePlayer = await Player.find({ age: { $lte: age_limit } });
+    return res.status(200).json(underAgePlayer);
+  } catch (error) {
+    return res.status(400).json('Error in Get Adult Player controller');
+  }
+};
+
 const postPlayer = async (req, res, next) => {
   try {
     const newPlayer = new Player(req.body);
@@ -58,6 +68,7 @@ const deletePlayer = async (req, res, next) => {
 module.exports = {
   getPlayer,
   getSinglePlayer,
+  getUnderAgePlayer,
   postPlayer,
   updatePlayer,
   deletePlayer
