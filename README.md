@@ -12,6 +12,10 @@ Método: GET
 URL: /games
 Descripción: carga todos los juegos de la BBDD.
 
+Método: GET
+URL: /games/:category
+Descripción: carga todos los juegos de la BBDD con la categoría indicada.
+
 Método: POST
 URL: /games
 Descripción: añade un juego a la BBDD.
@@ -35,6 +39,10 @@ Descripción: carga todos los jugadores de la BBDD.
 Método: GET
 URL: /players/:id_game
 Descripción: carga un solo jugador mediante su Id.
+
+Método: GET
+URL: /players/underage/:age_limit
+Descripción: carga todos los jugadores cuya edad sea igual o menor a la indicada.
 
 Método: POST
 URL: /players
