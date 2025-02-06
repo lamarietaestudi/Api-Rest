@@ -1,8 +1,8 @@
 # Game Players API
 
 ## Description
-Este proyecto es una API para gestionar una colección de juegos y otra de jugadores.
-Incluye endpoints para crear, leer, modificar y borrar ambas colecciones (CRUD). 
+Este proyecto es una API con tres colecciones: juegos, plataformas y jugadores.
+Incluye endpoints para crear, leer, modificar y borrar todas las colecciones (CRUD). 
 
 ## EndPoints
 
@@ -11,6 +11,10 @@ Incluye endpoints para crear, leer, modificar y borrar ambas colecciones (CRUD).
 Método: GET
 URL: /games
 Descripción: carga todos los juegos de la BBDD.
+
+Método: GET
+URL: /games/:id_game
+Descripción: carga el juego con el ID indicado.
 
 Método: GET
 URL: /games/:category
@@ -55,6 +59,26 @@ Descripción: actualiza los datos de un jugador mediante su Id.
 Método: DELETE
 URL: /players/:id_game
 Descripción: borra un jugador de la BBDD mediante su Id.
+
+----------
+
+### Colección Platforms
+
+Método: GET
+URL: /platforms
+Descripción: carga todas las plataformas de la BBDD.
+
+Método: POST
+URL: /platforms
+Descripción: añade una plataforma a la BBDD.
+
+Método: PUT
+URL: /platforms/:id_platform
+Descripción: actualiza los datos de una plataforma mediante su Id.
+
+Método: DELETE
+URL: /platforms/:id_platform
+Descripción: borra una plataforma de la BBDD mediante su Id.
 
 ----------
 

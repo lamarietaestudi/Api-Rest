@@ -1,7 +1,7 @@
 const {
+  getPlayers,
   getPlayer,
-  getSinglePlayer,
-  getUnderAgePlayer,
+  getUnderAgePlayers,
   postPlayer,
   updatePlayer,
   deletePlayer
@@ -9,9 +9,9 @@ const {
 
 const playersRouter = require('express').Router();
 
-playersRouter.get('/', getPlayer);
-playersRouter.get('/:id_player', getSinglePlayer);
-playersRouter.get('/underage/:age_limit', getUnderAgePlayer);
+playersRouter.get('/:id_player', getPlayer);
+playersRouter.get('/underage/:age_limit', getUnderAgePlayers);
+playersRouter.get('/', getPlayers);
 playersRouter.post('/', postPlayer);
 playersRouter.put('/:id_player', updatePlayer);
 playersRouter.delete('/:id_player', deletePlayer);

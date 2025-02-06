@@ -1,6 +1,7 @@
 const {
+  getGames,
   getGame,
-  getGameByCategory,
+  getGamesByCategory,
   postGame,
   updateGame,
   deleteGame
@@ -8,8 +9,9 @@ const {
 
 const gamesRouter = require('express').Router();
 
-gamesRouter.get('/', getGame);
-gamesRouter.get('/:category', getGameByCategory);
+gamesRouter.get('/:id_game', getGame);
+gamesRouter.get('/category/:category', getGamesByCategory);
+gamesRouter.get('/', getGames);
 gamesRouter.post('/', postGame);
 gamesRouter.put('/:id_game', updateGame);
 gamesRouter.delete('/:id_game', deleteGame);

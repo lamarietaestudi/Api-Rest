@@ -1,28 +1,32 @@
 const Player = require('../models/players');
 
-const getPlayer = async (req, res, next) => {
+const getPlayers = async (req, res, next) => {
   try {
-    const players = await Player.find().populate('category');
+    const players = await Player.find().populate('games').populate('platforms');
     return res.status(200).json(players);
   } catch (error) {
     return res.status(400).json('Error in Get Player controller');
   }
 };
 
-const getSinglePlayer = async (req, res, next) => {
+const getPlayer = async (req, res, next) => {
   try {
     const { id_player } = req.params;
-    const player = await Player.findById(id_player).populate('category');
+    const player = await Player.findById(id_player)
+      .populate('games')
+      .populate('platforms');
     return res.status(200).json(player);
   } catch (error) {
-    return res.status(400).json('Error in Get Single Player controller');
+    return res.status(400).json('Error in Get Player by ID controller');
   }
 };
 
-const getUnderAgePlayer = async (req, res, next) => {
+const getUnderAgePlayers = async (req, res, next) => {
   try {
     const { age_limit } = req.params;
-    const underAgePlayer = await Player.find({ age: { $lte: age_limit } });
+    const underAgePlayer = await Player.find({ age: { $lte: age_limit } })
+      .populate('games')
+      .populate('platforms');
     return res.status(200).json(underAgePlayer);
   } catch (error) {
     return res.status(400).json('Error in Get Adult Player controller');
@@ -66,9 +70,9 @@ const deletePlayer = async (req, res, next) => {
 };
 
 module.exports = {
+  getPlayers,
   getPlayer,
-  getSinglePlayer,
-  getUnderAgePlayer,
+  getUnderAgePlayers,
   postPlayer,
   updatePlayer,
   deletePlayer
