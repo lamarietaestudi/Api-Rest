@@ -44,12 +44,47 @@ const postGame = async (req, res, next) => {
 const updateGame = async (req, res, next) => {
   try {
     const { id_game } = req.params;
-    const gameUpdated = await Game.findByIdAndUpdate(id_game, req.body, {
-      new: true
-    }).populate('platforms');
+
+    const oldGame = await Game.findById(id_game);
+    if (!oldGame) {
+      return res.status(404).json({ message: 'Game not found' });
+    }
+
+    let updatedCategory = oldGame.category.map(String);
+    let updatedPlatforms = oldGame.platforms.map(String);
+
+    if (req.body.category && Array.isArray(req.body.category)) {
+      req.body.category.forEach((categoryId) => {
+        if (!updatedCategory.includes(categoryId)) {
+          updatedCategory.push(categoryId);
+        }
+      });
+    }
+
+    if (req.body.platforms && Array.isArray(req.body.platforms)) {
+      req.body.platforms.forEach((platformId) => {
+        if (!updatedPlatforms.includes(platformId)) {
+          updatedPlatforms.push(platformId);
+        }
+      });
+    }
+
+    const gameUpdated = await Game.findByIdAndUpdate(
+      id_game,
+      { $set: { category: updatedCategory, platforms: updatedPlatforms } },
+      { new: true }
+    )
+      .populate('platforms')
+      .populate('category');
+
     return res.status(200).json(gameUpdated);
   } catch (error) {
-    return res.status(400).json('Error in Update Game controller');
+    return res
+      .status(400)
+      .json({
+        error: 'Error in Update Game controller',
+        details: error.message
+      });
   }
 };
 

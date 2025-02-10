@@ -22,18 +22,33 @@ const postPlatform = async (req, res, next) => {
 const updatePlatform = async (req, res, next) => {
   try {
     const { id_platform } = req.params;
-    const newPlatform = new Platform(req.body);
-    newPlatform._id = id_platform;
+
+    const oldPlatform = await Platform.findById(id_platform);
+    if (!oldPlatform) {
+      return res.status(404).json({ message: 'Platform not found' });
+    }
+    let updatedGames = oldPlatform.games.map((game) => game.toString());
+
+    if (req.body.games && Array.isArray(req.body.games)) {
+      req.body.games.forEach((gameId) => {
+        if (!updatedGames.includes(gameId)) {
+          updatedGames.push(gameId);
+        }
+      });
+    }
+
     const platformUpdated = await Platform.findByIdAndUpdate(
       id_platform,
-      newPlatform,
-      {
-        new: true
-      }
-    );
+      { $set: { games: updatedGames } },
+      { new: true }
+    ).populate('games');
+
     return res.status(200).json(platformUpdated);
   } catch (error) {
-    return res.status(400).json('Error in Update Platform controller');
+    return res.status(400).json({
+      error: 'Error in Update Platform controller',
+      details: error.message
+    });
   }
 };
 
